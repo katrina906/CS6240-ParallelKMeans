@@ -21,8 +21,8 @@ aws.num.nodes=3
 aws.instance.type=m4.xlarge
 
 # ------------ MapReduce: SpotifyAPI data -------------------
-clientid=e840ce30f1184e6999971e37ef35f5ff
-clientsecret=195d5c34b6f242f7afaa1e1022eac024
+clientid=xxx
+clientsecret=xxx
 job.mr.name=javaCode.data.MRDataProcessor
 
 # local arguments
