@@ -1,0 +1,58 @@
+--- RUN EXPLANATIONS ---
+
+Note About Stderr Files:
+    Runs without balancing just have the stderr found from EMR Cluster > Steps > View Logs.
+    Runs with load balancing also have container 1 stderr, which contains details on machine assignments.
+
+Variables held constant:
+    Input Size (number of songs) = 70,000
+    Epsilon (allows for early convergence) = 0.0
+    AWS Machine Type = m4.xlarge
+
+Reported Performance Statistics:
+    - Max Iterations: Effect on Sequential K-Means.
+      [01, 02, 03] on 1 Worker
+    - K (Number of Clusters): Effect on Sequential K-Means.
+      [01, 04, 05, 06] on 1 Worker
+    - Speedup & Load Balance: Quantifying the runtime of effect, with & without load balancing.
+      [07, 09, 11] Unbalanced K-Means on 2, 4, 6 Workers respectively
+      [08, 10, 12] Balanced K-Means on 2, 4, 6 Workers respectively
+        Setup Matrix Used:
+          K = { 500, 750, 1000, 1250, 1500, 1750 }
+          Max Iters = { 10, 20 }
+          Seed = { 42 }
+    - Scalability: Measure the effect on runtime of increasing number of K-Means runs.
+      [13, 14, 15] Balanced K-Means on 6 Workers
+        Setup File Contained N = { 36, 24, 12 } Lines of:
+            K = 2000, Max Iters = 10, Epsilon = 0.0
+    - Final Run: One final run on AWS applying everything learned from experiments.
+      [16]
+          Setup Matrix Used:
+            K = { 100 to 2300, step 200 }
+            Max Iters = { 20 }
+            Seed = { 123 }
+
+Reason for Runs:
+    Max Iterations Group: Motivate use of max iterations in work estimate heuristic.
+    K Group: Motivate use of max iterations in work estimate heuristic.
+    Speedup & Load Balance: Measure speedup (required) and quantify improvement gained by load balancing.
+    Scalability: Measure scalability (required) as number of K-Means runs vs runtime.
+    Final AWS Run: Demo different values of K to find an "elbow" using everything learned by experimenting.
+
+Extra Details on Each Run:
+01 - K = 1000, Iters = 10
+02 - K = 1000, Iters = 20
+03 - K = 1000, Iters = 30
+04 - K = 2000, Iters = 10
+05 - K = 3000, Iters = 10
+06 - K = 4000, Iters = 10
+07 - 2x Unbalanced
+08 - 2x Balanced
+09 - 4x Unbalanced
+10 - 4x Balanced
+11 - 6x Unbalanced
+12 - 6x Balanced
+13 - 36 Runs in Setup File
+14 - 24 Runs in Setup File
+15 - 12 Runs in Setup File
+16 - Final AWS Run
